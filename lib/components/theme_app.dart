@@ -5,9 +5,9 @@ class ThemeApp {
   static ThemeData warmTheme() {
     final theme = ThemeData.dark().copyWith(
         colorScheme: const ColorScheme(
-          primary: Colors.orange,
+          primary: Color.fromARGB(255, 238, 32, 32),
           secondary: Colors.deepOrangeAccent,
-          surface: Colors.orangeAccent,
+          surface: Color.fromARGB(255, 240, 166, 139),
           error: Colors.redAccent,
           onPrimary: Colors.white,
           onSecondary: Colors.white,

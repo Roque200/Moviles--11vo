@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviles/components/global_values.dart';
+import 'package:moviles/components/menu_circular.dart';
 
 class DashboardScreens extends StatelessWidget {
   const DashboardScreens({super.key});
@@ -7,6 +8,9 @@ class DashboardScreens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+      ),
       endDrawer: Drawer(
         child: Column(
           children: [
@@ -54,14 +58,8 @@ class DashboardScreens extends StatelessWidget {
           ]
         ) 
       ),
-      appBar: AppBar(
-        leading:Container(),
-        title: const Text('Saliendo de casa'),
-      ),
-      body: const Center(
-        child: Text('Un poder conlleva una gran responsabilidad!',
-            style: TextStyle(fontSize: 24)),
-      ),
-    );
+      floatingActionButton: MenuCircular(),
+        
+      );
   }
 }
