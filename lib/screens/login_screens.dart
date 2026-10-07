@@ -8,43 +8,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-
     final txtUser = TextFormField(
       decoration: const InputDecoration(
         labelText: 'Usuario',
         border: OutlineInputBorder(),
-      )
+      ),
     );
     final txtPassword = TextFormField(
       obscureText: true,
       decoration: const InputDecoration(
         labelText: 'Contraseña',
         border: OutlineInputBorder(),
-      )
+      ),
     );
 
     final loading = Positioned(
       top: 350,
-      child: CircularProgressIndicator(color: Colors.white.withOpacity(0.8),), 
-      );
+      child: CircularProgressIndicator(color: Colors.white.withOpacity(0.8)),
+    );
 
     final btnLogin = ElevatedButton(
       onPressed: () {
         isLoading = !isLoading;
         setState(() {});
-        Future.delayed(
-           Duration(seconds: 4), () {
+        Future.delayed(Duration(seconds: 4), () {
           isLoading = !isLoading;
           setState(() {});
-        }).then((value)=> Navigator.pushNamed(context, '/dash'));
+        }).then((value) => Navigator.pushNamed(context, '/dash'));
         // Acción al presionar el botón de inicio de sesión
       },
-      
+
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: const [
@@ -72,20 +69,20 @@ class LoginScreenState extends State<LoginScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Image.asset('assets/araña.png',height: 200,),
-             Positioned(
-              height: 170,
-              width: MediaQuery.of(context).size.width * 0.4,
-              bottom: 90,
+            Image.asset('assets/araña.png', height: 200),
+            Positioned(
+              height: 200,
+              width: MediaQuery.of(context).size.width * 0.7,
+              bottom: 130,
               child: Container(
-                padding:EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: Column(
                   children: [
                     txtUser,
-                    Divider(height: 10, color: Colors.transparent,),
+                    Divider(height: 10, color: Colors.transparent),
                     txtPassword,
-                    Divider(height: 10, color: Colors.transparent,),
-                    btnLogin
+                    Divider(height: 10, color: Colors.transparent),
+                    btnLogin,
                   ],
                 ),
 
@@ -95,7 +92,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            isLoading ? loading : Container()
+            isLoading ? loading : Container(),
           ],
         ),
       ),

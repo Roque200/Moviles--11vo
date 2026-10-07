@@ -1,10 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:moviles/components/global_values.dart';
 import 'package:moviles/components/theme_app.dart';
+import 'package:moviles/firebase_options.dart';
+import 'package:moviles/screens/add_note_screens.dart';
 import 'package:moviles/screens/dashboard_screens.dart';
 import 'package:moviles/screens/login_screens.dart';
+import 'package:moviles/screens/notes_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,10 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: GlobalValues.banTheme,
-      builder: (context, value, _ ) {
-
-         ThemeData tema = ThemeData.light();
-        switch(value){
+      builder: (context, value, _) {
+        ThemeData tema = ThemeData.light();
+        switch (value) {
           case 0:
             tema = ThemeData.dark();
             break;
@@ -32,11 +39,13 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routes: {
             '/dash': (context) => DashboardScreens(),
+            '/note': (context) => NotesScreen(),
+            '/add': (context) => AddNoteScreens(),
           },
           theme: tema,
           home: LoginScreen(),
         );
-      }
+      },
     );
   }
 }
