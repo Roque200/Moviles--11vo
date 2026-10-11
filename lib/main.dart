@@ -6,7 +6,9 @@ import 'package:moviles/firebase_options.dart';
 import 'package:moviles/screens/add_note_screens.dart';
 import 'package:moviles/screens/dashboard_screens.dart';
 import 'package:moviles/screens/login_screens.dart';
+import 'package:moviles/screens/notesNube_screen.dart';
 import 'package:moviles/screens/notes_screen.dart';
+import 'package:moviles/screens/register_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
             '/dash': (context) => DashboardScreens(),
             '/note': (context) => NotesScreen(),
             '/add': (context) => AddNoteScreens(),
+            '/register': (context) => RegisterScreen(),
+            "/NotesNube": (context) => NotesNubeScreen(),
           },
           theme: tema,
           home: LoginScreen(),

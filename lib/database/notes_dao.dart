@@ -3,8 +3,9 @@ class NotesDao {
   String? title;
   String? content;
   String? dateNote;
+  String? firestoreId;
 
-  NotesDao({this.idNote, this.title, this.content, this.dateNote});
+  NotesDao({this.idNote, this.title, this.content, this.dateNote, this.firestoreId});
 
   factory NotesDao.fromMap(Map<String, dynamic> note) {
     return NotesDao(

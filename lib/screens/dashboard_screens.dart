@@ -44,6 +44,18 @@ class DashboardScreens extends StatelessWidget {
                 //GlobalValues.banTheme.value = !GlobalValues.banTheme.value;
               },
             ),
+
+            const Divider(color: Colors.grey, thickness: 1, height: 1),
+            ListTile(
+              title: const Text('Lista de Notas'),
+              subtitle: const Text('App Notes Nube'),
+              leading: const Icon(Icons.cloud),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pushNamed(context, "/NotesNube");
+                //GlobalValues.banTheme.value = !GlobalValues.banTheme.value;
+              },
+            ),
             const Divider(color: Colors.grey, thickness: 1, height: 1),
             ListTile(
               title: const Text('Cerrar Sesión'),
