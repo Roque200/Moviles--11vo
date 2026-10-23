@@ -28,24 +28,54 @@ class FirestoreNotes {
     await _notes.doc(id).delete();
   }
 
+  /// Escucha la colección en tiempo real: cualquier cambio en Firestore
+  /// (desde la app o desde la consola) se refleja automáticamente.
+  Stream<List<NotesDao>> streamNotes() {
+    return _notes.snapshots().map(
+      (snapshot) => snapshot.docs.map(_fromDocument).toList(),
+    );
+  }
+
+  /// Lectura única de la colección.
   Future<List<NotesDao>> readNotes() async {
     final snapshot = await _notes.get();
-    return snapshot.docs.map((document) {
-      final data = document.data();
-      return NotesDao(
-        firestoreId: document.id,
-        title: data['title'] as String?,
-        content: data['content'] as String?,
-        dateNote: data['dateNote'] as String?,
-      );
-    }).toList();
+    return snapshot.docs.map(_fromDocument).toList();
+  }
+
+  NotesDao _fromDocument(QueryDocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data();
+    return NotesDao(
+      firestoreId: document.id,
+      title: _asText(data['title']),
+      content: _asText(data['content']),
+      dateNote: _asDate(data['dateNote']),
+    );
+  }
+
+  /// Convierte cualquier valor a texto sin tronar si el tipo no es String.
+  String _asText(dynamic value) {
+    if (value == null) return '';
+    return value.toString();
+  }
+
+  /// Acepta la fecha como String o como Timestamp de Firestore.
+  String _asDate(dynamic value) {
+    if (value == null) return '';
+    if (value is Timestamp) {
+      return value.toDate().toIso8601String().substring(0, 10);
+    }
+    if (value is DateTime) {
+      return value.toIso8601String().substring(0, 10);
+    }
+    return value.toString();
   }
 
   Map<String, dynamic> _noteData(NotesDao note) {
     return {
       'title': note.title ?? '',
       'content': note.content ?? '',
-      'dateNote': note.dateNote ?? DateTime.now().toIso8601String().substring(0, 10),
+      'dateNote':
+          note.dateNote ?? DateTime.now().toIso8601String().substring(0, 10),
     };
   }
 }
