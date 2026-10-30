@@ -17,6 +17,8 @@ class _AddNoteState extends State<AddNoteScreens> {
   late final NotesDB notesDB;
   final TextEditingController conTitle = TextEditingController();
   final TextEditingController conContent = TextEditingController();
+  final TextEditingController conDate = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
   bool _isSaving = false;
 
   @override
@@ -26,14 +28,38 @@ class _AddNoteState extends State<AddNoteScreens> {
     if (widget.note != null) {
       conTitle.text = widget.note!.title ?? '';
       conContent.text = widget.note!.content ?? '';
+      final fechaGuardada = DateTime.tryParse(widget.note!.dateNote ?? '');
+      if (fechaGuardada != null) _selectedDate = fechaGuardada;
     }
+    conDate.text = _formatearFecha(_selectedDate);
   }
 
   @override
   void dispose() {
     conTitle.dispose();
     conContent.dispose();
+    conDate.dispose();
     super.dispose();
+  }
+
+  String _formatearFecha(DateTime fecha) {
+    return fecha.toIso8601String().substring(0, 10);
+  }
+
+  Future<void> _desplegarFechas(BuildContext context) async {
+    final DateTime? fecha = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2076),
+    );
+
+    if (fecha != null && fecha != _selectedDate) {
+      setState(() {
+        _selectedDate = fecha;
+        conDate.text = _formatearFecha(fecha);
+      });
+    }
   }
 
   Future<void> _guardarNota() async {
@@ -41,14 +67,12 @@ class _AddNoteState extends State<AddNoteScreens> {
     setState(() => _isSaving = true);
 
     final note = widget.note;
-    final fecha =
-        note?.dateNote ?? DateTime.now().toIso8601String().substring(0, 10);
     final updatedNote = NotesDao(
       idNote: note?.idNote,
       firestoreId: note?.firestoreId,
       title: conTitle.text.trim(),
       content: conContent.text.trim(),
-      dateNote: fecha,
+      dateNote: conDate.text,
     );
 
     try {
@@ -111,6 +135,15 @@ class _AddNoteState extends State<AddNoteScreens> {
       controller: conContent,
       decoration: const InputDecoration(labelText: 'Contenido'),
     );
+    final txtDate = TextFormField(
+      controller: conDate,
+      readOnly: true,
+      decoration: const InputDecoration(
+        labelText: 'Fecha de vencimiento',
+        suffixIcon: Icon(Icons.calendar_month),
+      ),
+      onTap: () => _desplegarFechas(context),
+    );
     const spacer = SizedBox(height: 5);
     final btnSave = ElevatedButton(
       onPressed: _isSaving ? null : _guardarNota,
@@ -128,7 +161,15 @@ class _AddNoteState extends State<AddNoteScreens> {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          children: [txtTitle, spacer, txtContent, spacer, btnSave],
+          children: [
+            txtTitle,
+            spacer,
+            txtContent,
+            spacer,
+            txtDate,
+            spacer,
+            btnSave,
+          ],
         ),
       ),
     );

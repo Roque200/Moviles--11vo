@@ -55,6 +55,26 @@ class DashboardScreens extends StatelessWidget {
             ),
             const Divider(color: Colors.grey, thickness: 1, height: 1),
             ListTile(
+              title: const Text('Lista de películas'),
+              subtitle: const Text('Películas populares'),
+              leading: const Icon(Icons.movie),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pushNamed(context, '/movies');
+              },
+            ),
+            const Divider(color: Colors.grey, thickness: 1, height: 1),
+            ListTile(
+              title: const Text('Mapas de Google'),
+              subtitle: const Text('Mapas de Google'),
+              leading: const Icon(Icons.map),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pushNamed(context, '/map');
+              },
+            ),
+            const Divider(color: Colors.grey, thickness: 1, height: 1),
+            ListTile(
               title: const Text('Cerrar Sesión'),
               subtitle: const Text('Regresar a la pantalla de inicio'),
               leading: const Icon(Icons.logout),
